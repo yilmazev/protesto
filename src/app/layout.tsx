@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
 import "./globals.css"
@@ -19,10 +20,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr">
-      <body className={`${twitterChirp.className} bg-blackPearl text-haze antialiased`}>
-        {children}
-      </body>
-    </html>
+    <>
+      <html lang="tr">
+        <body className={`${twitterChirp.className} bg-blackPearl text-haze antialiased`}>
+          {children}
+        </body>
+      </html>
+      <Analytics />
+    </>
   )
 }
