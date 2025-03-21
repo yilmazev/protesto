@@ -4,7 +4,7 @@ import Tweets from "@/components/Tweets"
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen justify-between p-6">
+    <main className="flex flex-col justify-between gap-2 p-2 lg:min-h-screen lg:flex-row lg:p-6">
       <Chats />
       <Map />
       <Tweets />

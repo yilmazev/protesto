@@ -34,7 +34,7 @@ const Map = () => {
   }
 
   return (
-    <div className="flex w-full flex-col items-center justify-between px-4">
+    <div className="flex w-full flex-col items-center justify-between lg:px-4">
       <div className="relative flex size-full items-center justify-center">
         {isLoading
           ? <IconSpinner className="size-[26px] animate-spin" />
@@ -46,7 +46,7 @@ const Map = () => {
             />
           )}
       </div>
-      <Link href="https://github.com/yilmazev/protesto" target="_blank" className="text-[13px] text-gray hover:underline">Kaynak Kodunu Görüntüle</Link>
+      <Link href="https://github.com/yilmazev/protesto" target="_blank" className="hidden text-[13px] text-gray hover:underline lg:block">Kaynak Kodunu Görüntüle</Link>
     </div>
   )
 }

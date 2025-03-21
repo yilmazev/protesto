@@ -87,7 +87,7 @@ const Chat = () => {
   }
 
   return (
-    <div ref={chatWrapperRef} className="flex min-w-96 max-w-96 flex-col rounded-2xl border border-spruce">
+    <div ref={chatWrapperRef} className="flex w-full flex-col rounded-2xl border border-spruce lg:min-w-96 lg:max-w-96">
       <div className="flex items-center justify-between px-4 py-3">
         <h1 className="text-xl font-extrabold">Topluluk Sohbeti</h1>
       </div>
@@ -101,7 +101,7 @@ const Chat = () => {
           : (
             <div
               ref={chatContainerRef}
-              className="flex flex-col gap-6 overflow-y-auto"
+              className="flex h-full !max-h-80 flex-col gap-6 overflow-y-auto lg:h-auto"
               style={{ maxHeight: `${chatHeight}px` }}
             >
               {messages.map((msg) => (

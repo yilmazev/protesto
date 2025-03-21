@@ -57,7 +57,7 @@ const Tweets = () => {
   if (!selectedCity) return <div />
 
   return (
-    <div ref={chatWrapperRef} className="flex min-w-96 max-w-96 flex-col rounded-2xl border border-spruce">
+    <div ref={chatWrapperRef} className="flex w-full flex-col rounded-2xl border border-spruce lg:min-w-96 lg:max-w-96">
       <div className="flex items-center justify-between px-4 py-3">
         <h1 className="text-xl font-extrabold">{selectedCity.city} İlgili Tweetler</h1>
         <button
@@ -67,18 +67,17 @@ const Tweets = () => {
           <IconTimes className="size-5 fill-porcelain" />
         </button>
       </div>
-
       <div className="h-full flex-1 overflow-hidden">
         {isLoading
           ? (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center py-4">
               <IconSpinner className="size-[26px] animate-spin" />
             </div>
           )
           : (
             <div
               ref={chatContainerRef}
-              className="flex min-h-full flex-col overflow-y-auto"
+              className="flex h-full !max-h-80 min-h-full flex-col overflow-y-auto lg:h-auto"
               style={{ maxHeight: `${chatHeight}px` }}
             >
               {tweets.map((tweet, index) => (

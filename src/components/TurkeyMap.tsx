@@ -9,7 +9,7 @@ const TurkeyMap: React.FC<ITurkeyMap> = ({ tweetCities, selectedCity, onClick })
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 50 1007.478 527.323"
+        viewBox="0 100 1007.478 527.323"
         className="h-auto w-full max-w-[1000px]"
         preserveAspectRatio="xMidYMid meet"
       >
