@@ -12,7 +12,7 @@ export async function getTweetCities() {
     if (!acc[city.city]) {
       acc[city.city] = []
     }
-    acc[city.city].push({ tweetUrl: city.tweetUrl, timestamp: city.timestamp })
+    acc[city.city].push(city.tweetUrl)
     return acc
   }, {} as Record<string, { tweetUrl: string; timestamp: number }[]>)
 
