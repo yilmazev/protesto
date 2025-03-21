@@ -24,44 +24,43 @@ const Chat = () => {
   const [ messages, setMessages ] = useState<IMessage[]>([])
   const [ newMessage, setNewMessage ] = useState("")
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ chatHeight, setChatHeight ] = useState<number>(500)
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const chatWrapperRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const updateChatHeight = () => {
-      if (chatWrapperRef.current) {
-        const windowHeight = window.innerHeight
-        const wrapperTop = chatWrapperRef.current.getBoundingClientRect().top
-        const newHeight = windowHeight - wrapperTop - 160
-        setChatHeight(newHeight > 200 ? newHeight : 200)
-      }
+  // 🔹 Scroll to latest message
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
+  }
 
-    updateChatHeight()
-    window.addEventListener("resize", updateChatHeight)
-
-    return () => window.removeEventListener("resize", updateChatHeight)
-  }, [])
-
+  // 🔹 Fetch messages initially & auto-refresh every 15 seconds
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true)
       try {
         const messagesData = await getMessages()
         setMessages(messagesData)
+        setTimeout(scrollToBottom, 100) // 🔥 Auto-scroll when messages load
       } catch (error) {
         console.error("Error fetching messages:", error)
       } finally {
         setIsLoading(false)
-        if (chatContainerRef.current) {
-          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-        }
       }
     }
 
     fetchMessages()
+
+    // 🔥 Auto-refresh chat every 15 seconds
+    const interval = setInterval(fetchMessages, 15000)
+
+    return () => clearInterval(interval)
   }, [])
+
+  // 🔹 Scroll to bottom when messages update
+  useEffect(() => {
+    scrollToBottom()
+  }, [ messages ])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -92,24 +91,20 @@ const Chat = () => {
         <h1 className="text-xl font-extrabold">Topluluk Sohbeti</h1>
       </div>
       <div className="h-full flex-1 overflow-hidden px-4 py-3">
-        {isLoading
-          ? (
-            <div className="flex size-full items-center justify-center">
-              <IconSpinner className="size-[26px] animate-spin" />
-            </div>
-          )
-          : (
-            <div
-              ref={chatContainerRef}
-              className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto"
-              style={{ maxHeight: `${chatHeight}px` }}
-            >
-              {messages.map((msg) => (
-                <Bubble key={msg.id} isMe={msg.username === username} sender={msg.username} message={msg.message} />
-              ))}
-            </div>
-          )
-        }
+        {isLoading ? (
+          <div className="flex size-full items-center justify-center">
+            <IconSpinner className="size-[26px] animate-spin" />
+          </div>
+        ) : (
+          <div
+            ref={chatContainerRef}
+            className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto"
+          >
+            {messages.map((msg) => (
+              <Bubble key={msg.id} isMe={msg.username === username} sender={msg.username} message={msg.message} />
+            ))}
+          </div>
+        )}
       </div>
       <form onSubmit={handleSubmit}>
         <div className="border-t border-spruce">
