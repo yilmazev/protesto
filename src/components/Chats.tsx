@@ -101,7 +101,7 @@ const Chat = () => {
           : (
             <div
               ref={chatContainerRef}
-              className="flex h-full !max-h-80 flex-col gap-6 overflow-y-auto lg:h-auto"
+              className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto"
               style={{ maxHeight: `${chatHeight}px` }}
             >
               {messages.map((msg) => (
