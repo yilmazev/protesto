@@ -27,21 +27,19 @@ const Chat = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const chatWrapperRef = useRef<HTMLDivElement>(null)
 
-  // 🔹 Scroll to latest message
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
   }
 
-  // 🔹 Fetch messages initially & auto-refresh every 15 seconds
   useEffect(() => {
     const fetchMessages = async () => {
       setIsLoading(true)
       try {
         const messagesData = await getMessages()
         setMessages(messagesData)
-        setTimeout(scrollToBottom, 100) // 🔥 Auto-scroll when messages load
+        setTimeout(scrollToBottom, 100)
       } catch (error) {
         console.error("Error fetching messages:", error)
       } finally {
@@ -51,13 +49,11 @@ const Chat = () => {
 
     fetchMessages()
 
-    // 🔥 Auto-refresh chat every 15 seconds
     const interval = setInterval(fetchMessages, 15000)
 
     return () => clearInterval(interval)
   }, [])
 
-  // 🔹 Scroll to bottom when messages update
   useEffect(() => {
     scrollToBottom()
   }, [ messages ])
