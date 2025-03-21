@@ -1,19 +1,20 @@
 "use server"
 
-import { collection, getDocs } from "firebase/firestore"
+import { collection, getDocs, orderBy, query } from "firebase/firestore"
 import { db } from "../config/firebase"
 
 export async function getTweetCities() {
-  const snapshot = await getDocs(collection(db, "tweets"))
+  const q = query(collection(db, "tweets"), orderBy("timestamp", "desc"))
+  const snapshot = await getDocs(q)
   const cities = snapshot.docs.map((doc) => doc.data())
 
   const groupedCities = cities.reduce((acc, city) => {
     if (!acc[city.city]) {
       acc[city.city] = []
     }
-    acc[city.city].push(city.tweetUrl)
+    acc[city.city].push({ tweetUrl: city.tweetUrl, timestamp: city.timestamp })
     return acc
-  }, {} as Record<string, string[]>)
+  }, {} as Record<string, { tweetUrl: string; timestamp: number }[]>)
 
   return groupedCities
 }
