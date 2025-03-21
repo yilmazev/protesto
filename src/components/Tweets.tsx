@@ -3,7 +3,7 @@
 import IconSpinner from "@/icons/spinner.svg"
 import IconTimes from "@/icons/times.svg"
 import Link from "next/link"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { useMapStore } from "../stores/useMapStore"
 import { ITweet } from "../types/ITweet"
 
@@ -11,25 +11,6 @@ const Tweets = () => {
   const { selectedCity, setSelectedCity } = useMapStore()
   const [ tweets, setTweets ] = useState<ITweet[]>([])
   const [ isLoading, setIsLoading ] = useState(true)
-  const [ chatHeight, setChatHeight ] = useState<number>(500)
-  const chatContainerRef = useRef<HTMLDivElement>(null)
-  const chatWrapperRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const updateChatHeight = () => {
-      if (chatWrapperRef.current) {
-        const windowHeight = window.innerHeight
-        const wrapperTop = chatWrapperRef.current.getBoundingClientRect().top
-        const newHeight = windowHeight - wrapperTop - 160
-        setChatHeight(newHeight > 200 ? newHeight : 200)
-      }
-    }
-
-    updateChatHeight()
-    window.addEventListener("resize", updateChatHeight)
-
-    return () => window.removeEventListener("resize", updateChatHeight)
-  }, [])
 
   useEffect(() => {
     if (!selectedCity?.tweetUrls?.length) return
@@ -54,10 +35,10 @@ const Tweets = () => {
     fetchTweets()
   }, [ selectedCity ])
 
-  if (!selectedCity) return <div />
+  if (!selectedCity) return null
 
   return (
-    <div ref={chatWrapperRef} className="flex w-full flex-col rounded-2xl border border-spruce lg:min-w-96 lg:max-w-96">
+    <div className="flex w-full flex-col rounded-2xl border border-spruce lg:min-w-96 lg:max-w-96">
       <div className="flex items-center justify-between px-4 py-3">
         <h1 className="text-xl font-extrabold">{selectedCity.city} İlgili Tweetler</h1>
         <button
@@ -75,11 +56,7 @@ const Tweets = () => {
             </div>
           )
           : (
-            <div
-              ref={chatContainerRef}
-              className="flex h-full !max-h-80 min-h-full flex-col overflow-y-auto lg:h-auto"
-              style={{ maxHeight: `${chatHeight}px` }}
-            >
+            <div className="flex h-full !max-h-80 min-h-full flex-col overflow-y-auto lg:h-auto">
               {tweets.map((tweet, index) => (
                 <div key={index} className="border-b border-spruce last:border-0">
                   <div className="tweet-content px-4 py-3">

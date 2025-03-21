@@ -1,7 +1,15 @@
 "use server"
 
-import { collection, getDocs, orderBy, query } from "firebase/firestore"
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore"
 import { db } from "../config/firebase"
+
+export async function getTweets() {
+  const q = query(collection(db, "tweets"), orderBy("timestamp", "desc"), limit(30))
+  const snapshot = await getDocs(q)
+  const cities = snapshot.docs.map((doc) => doc.data())
+
+  return cities
+}
 
 export async function getTweetCities() {
   const q = query(collection(db, "tweets"), orderBy("timestamp", "desc"))
