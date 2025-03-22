@@ -29,7 +29,7 @@ const NewPost = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-96 p-2 !pt-0 lg:p-6">
+    <form onSubmit={handleSubmit} className="w-full max-w-96 px-2 lg:px-0">
       <div className="flex items-center gap-1 rounded-2xl bg-stone p-1">
         <input
           type="text"
