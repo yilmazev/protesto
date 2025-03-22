@@ -22,7 +22,7 @@ const Navbar = () => {
               title={item.name}
               className="flex w-full items-center justify-center lg:w-fit lg:min-w-14 lg:px-8"
             >
-              <div className={clsx("relative h-full w-fit py-4 text-[15px]", pathname === item.path ? "text-black font-bold" : "font-medium text-gray")}>
+              <div className={clsx("relative h-full w-fit py-4 text-[15px]", pathname === item.path ? "font-bold" : "font-medium text-gray")}>
                 <span>{item.name}</span>
                 {pathname === item.path && (
                   <div className="absolute bottom-0 h-1 w-full min-w-14 rounded-full bg-primary" />
