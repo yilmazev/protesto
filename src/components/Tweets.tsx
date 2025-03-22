@@ -60,12 +60,10 @@ const Tweets = () => {
               {tweets.map((tweet, index) => (
                 <div key={index} className="border-b border-spruce last:border-0">
                   <div className="tweet-content px-4 py-3">
-                    <p dangerouslySetInnerHTML={{ __html: tweet.text }} />
-                    {tweet.url && (
-                      <Link href={tweet.url} target="_blank" className="block py-4">
-                        X'de Görüntüle
-                      </Link>
-                    )}
+                    <p dangerouslySetInnerHTML={{ __html: tweet.text ?? "Tweet silindi veya görüntülenemiyor" }} />
+                    <Link href={tweet.url} target="_blank" className="block py-4">
+                      X'de Görüntüle
+                    </Link>
                   </div>
                 </div>
               ))}
