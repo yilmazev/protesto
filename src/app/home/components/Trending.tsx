@@ -1,11 +1,11 @@
 "use client"
 
+import { getTweets } from "@/actions/tweets"
 import IconSpinner from "@/icons/spinner.svg"
+import { useMapStore } from "@/stores/useMapStore"
+import { ITweet } from "@/types/ITweet"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { getTweets } from "../actions/tweets"
-import { useMapStore } from "../stores/useMapStore"
-import { ITweet } from "../types/ITweet"
 
 const Trending = () => {
   const { selectedCity } = useMapStore()

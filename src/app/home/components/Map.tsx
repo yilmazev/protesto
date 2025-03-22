@@ -1,11 +1,11 @@
 "use client"
 
 import { getTweetCities } from "@/actions/tweets"
+import TurkeyMap from "@/components/TurkeyMap"
 import IconSpinner from "@/icons/spinner.svg"
 import { useMapStore } from "@/stores/useMapStore"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import TurkeyMap from "./TurkeyMap"
 
 const Map = () => {
   const { selectedCity, setSelectedCity } = useMapStore()

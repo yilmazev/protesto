@@ -4,9 +4,9 @@ import { addMessage, getMessages } from "@/actions/messages"
 import { useUsername } from "@/hooks/useUsername"
 import IconSend from "@/icons/send.svg"
 import IconSpinner from "@/icons/spinner.svg"
+import { IMessage } from "@/types/IMessage"
 import clsx from "clsx"
 import { useEffect, useRef, useState } from "react"
-import { IMessage } from "../types/IMessage"
 
 const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; message: string }) => {
   return (

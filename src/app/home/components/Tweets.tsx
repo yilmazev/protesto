@@ -2,10 +2,10 @@
 
 import IconSpinner from "@/icons/spinner.svg"
 import IconTimes from "@/icons/times.svg"
+import { useMapStore } from "@/stores/useMapStore"
+import { ITweet } from "@/types/ITweet"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { useMapStore } from "../stores/useMapStore"
-import { ITweet } from "../types/ITweet"
 
 const Tweets = () => {
   const { selectedCity, setSelectedCity } = useMapStore()

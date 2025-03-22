@@ -1,14 +1,15 @@
 import { Analytics } from "@vercel/analytics/react"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import Navbar from "../components/Navbar"
 import "./globals.css"
 
 const twitterChirp = localFont({
   src: [
-    { path: "./fonts/Chirp-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/Chirp-Medium.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/Chirp-Bold.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/Chirp-Heavy.woff2", weight: "700", style: "normal" }
+    { path: "../fonts/Chirp-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/Chirp-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/Chirp-Bold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/Chirp-Heavy.woff2", weight: "700", style: "normal" }
   ],
   variable: "--font-twitter-chirp"
 })
@@ -23,7 +24,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <>
       <html lang="tr">
         <body className={`${twitterChirp.className} bg-blackPearl text-haze antialiased`}>
-          {children}
+          <main className="flex min-h-screen flex-col">
+            <Navbar />
+            {children}
+          </main>
         </body>
       </html>
       <Analytics />
