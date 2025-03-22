@@ -3,22 +3,7 @@
 import { getPosts } from "@/actions/posts"
 import IconSpinner from "@/icons/spinner.svg"
 import { useEffect, useState } from "react"
-
-// 🔥 Zamanı formatlamak için yardımcı fonksiyon
-const formatDate = (timestamp: number) => {
-  if (!timestamp) return "Bilinmiyor"
-  const date = new Date(timestamp)
-
-  // 🔥 Kısaltılmış ay isimleri (Türkçe)
-  const months = [ "Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara" ]
-
-  const day = date.getDate()
-  const month = months[date.getMonth()]
-  const hours = date.getHours().toString().padStart(2, "0")
-  const minutes = date.getMinutes().toString().padStart(2, "0")
-
-  return `${day} ${month}, ${hours}:${minutes}`
-}
+import { formatDate } from "../../../utils/utils"
 
 const Posts = () => {
   const [ posts, setPosts ] = useState<{ id: string; username: string; message: string; timestamp: number }[]>([])
