@@ -3,7 +3,7 @@ import clsx from "clsx"
 import React from "react"
 import { ITurkeyMap } from "../types/ITurkeyMap"
 
-const TurkeyMap: React.FC<ITurkeyMap> = ({ tweetCities, selectedCity, onClick }) => {
+const TurkeyMap: React.FC<ITurkeyMap> = ({ tweetCities, selectedCity, onClick, getCityColor }) => {
   return (
     <div className="flex w-full justify-center">
       <svg
@@ -16,6 +16,7 @@ const TurkeyMap: React.FC<ITurkeyMap> = ({ tweetCities, selectedCity, onClick })
         <g>
           {cities.map((city) => {
             const hasTweet = tweetCities.includes(city.name)
+            const fillColor = hasTweet ? getCityColor(city.name) : "fill-primary/10"
 
             return (
               <g
@@ -26,7 +27,10 @@ const TurkeyMap: React.FC<ITurkeyMap> = ({ tweetCities, selectedCity, onClick })
                 onClick={() => hasTweet && onClick(city.name)}
                 className={clsx(hasTweet && "cursor-pointer")}
               >
-                <path className={clsx(hasTweet ? "fill-primary/60" : "fill-primary/5", selectedCity === city.name && "!fill-primary")} d={city.path} />
+                <path
+                  className={clsx(fillColor, selectedCity === city.name && "!fill-primary")}
+                  d={city.path}
+                />
               </g>
             )
           })}
