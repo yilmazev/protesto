@@ -28,7 +28,7 @@ const BoycottList = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex w-full max-w-4xl flex-col items-center px-2 lg:px-0">
+      <div className="flex w-full max-w-4xl flex-col items-center p-2">
         <div className="mb-4 flex w-full max-w-96 items-center gap-1 rounded-2xl bg-stone p-1">
           <input
             type="text"
