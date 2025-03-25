@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    unoptimized: true,
     domains: ["ohbleegp4mjqz9wj.public.blob.vercel-storage.com"],
   },
   webpack(config) {
