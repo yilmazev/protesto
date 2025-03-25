@@ -14,7 +14,7 @@ const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; mess
       <div className={clsx("w-fit rounded-3xl px-4 py-3", isMe ? "rounded-br-sm bg-primary" : "rounded-bl-sm bg-fiord")}>
         <p className="break-words text-[15px]">{message}</p>
       </div>
-      <span className="text-[13px] text-gray">{sender}</span>
+      <span className={clsx("block w-full text-[13px] text-gray", isMe && "text-right")}>{sender}</span>
     </div>
   )
 }
