@@ -100,7 +100,7 @@ const Chat = () => {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="border-t border-spruce">
-          <div className="mx-3 my-1 flex items-center gap-1 rounded-2xl bg-stone p-1">
+          <div className="mx-3 my-1 flex min-h-11 items-center gap-1 rounded-2xl bg-stone p-1">
             <input
               type="text"
               value={newMessage}

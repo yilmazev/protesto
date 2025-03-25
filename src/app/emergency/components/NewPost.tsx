@@ -30,7 +30,7 @@ const NewPost = () => {
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-96 px-2 lg:px-0">
-      <div className="flex items-center gap-1 rounded-2xl bg-stone p-1">
+      <div className="flex min-h-11 items-center gap-1 rounded-2xl bg-stone p-1">
         <input
           type="text"
           value={newMessage}
