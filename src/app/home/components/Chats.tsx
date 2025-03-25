@@ -48,10 +48,6 @@ const Chat = () => {
     }
 
     fetchMessages()
-
-    const interval = setInterval(fetchMessages, 15000)
-
-    return () => clearInterval(interval)
   }, [])
 
   useEffect(() => {
