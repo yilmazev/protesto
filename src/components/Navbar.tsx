@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation"
 
 const navItems = [
   { name: "Ana Sayfa", path: "/" },
-  { name: "Acil Çağrı", path: "/emergency" }
+  { name: "Acil Çağrı", path: "/emergency" },
+  { name: "Boykot", path: "/boycott" }
 ]
 
 const Navbar = () => {

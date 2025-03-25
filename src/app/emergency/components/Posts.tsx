@@ -2,11 +2,12 @@
 
 import { getPosts } from "@/actions/posts"
 import IconSpinner from "@/icons/spinner.svg"
+import { IPost } from "@/types/IPost"
+import { formatDate } from "@/utils/utils"
 import { useEffect, useState } from "react"
-import { formatDate } from "../../../utils/utils"
 
 const Posts = () => {
-  const [ posts, setPosts ] = useState<{ id: string; username: string; message: string; timestamp: number }[]>([])
+  const [ posts, setPosts ] = useState<IPost[]>([])
   const [ isLoading, setIsLoading ] = useState(true)
 
   useEffect(() => {
@@ -27,22 +28,25 @@ const Posts = () => {
 
   return (
     <div className="w-full max-w-96 pb-2 lg:pb-6">
-      {isLoading ? (
-        <div className="flex items-center justify-center py-4">
-          <IconSpinner className="size-[26px] animate-spin" />
-        </div>
-      ) : (
-        <div className="flex flex-col">
-          {posts.map((post) => (
-            <div key={post.id} className="border-b border-spruce px-2 py-4 last:border-0 lg:px-0">
-              <div className="text-[15px] text-gray">
-                <span className="font-medium text-haze">{post.username}</span> · <span>{formatDate(post.timestamp)}</span>
+      {isLoading
+        ? (
+          <div className="flex items-center justify-center py-4">
+            <IconSpinner className="size-[26px] animate-spin" />
+          </div>
+        )
+        : (
+          <div className="flex flex-col">
+            {posts.map((post) => (
+              <div key={post.id} className="border-b border-spruce px-2 py-4 last:border-0 lg:px-0">
+                <div className="text-[15px] text-gray">
+                  <span className="font-medium text-haze">{post.username}</span> · <span>{formatDate(post.timestamp)}</span>
+                </div>
+                <p className="break-words text-haze">{post.message}</p>
               </div>
-              <p className="break-words text-haze">{post.message}</p>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )
+      }
     </div>
   )
 }

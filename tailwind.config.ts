@@ -20,6 +20,7 @@ const config: Config = {
       fiord: "#3d5466",
       gray: "#8b98a5",
       porcelain: "#eff3f4",
+      white: "#FFFFFF",
       transparent: "#0000"
     },
   },
