@@ -2,17 +2,17 @@
 
 import { addMessage } from "@/actions/messages"
 import { db } from "@/config/firebase"
+import { useUsername } from "@/hooks/useUsername"
 import IconSend from "@/icons/send.svg"
 import IconSpinner from "@/icons/spinner.svg"
 import { IMessage } from "@/types/IMessage"
 import clsx from "clsx"
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
 import { useEffect, useRef, useState } from "react"
-import { useUsername } from "../../../hooks/useUsername"
 
 const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; message: string }) => {
   return (
-    <div className={clsx(isMe && "justify-items-end self-end")}>
+    <div className={clsx("flex w-full flex-col", isMe && "items-end self-end")}>
       <div className={clsx("w-fit rounded-3xl px-4 py-3", isMe ? "rounded-br-sm bg-primary" : "rounded-bl-sm bg-fiord")}>
         <p className="break-all text-[15px]">{message}</p>
       </div>
