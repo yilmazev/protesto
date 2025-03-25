@@ -35,7 +35,7 @@ const NewPost = () => {
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Aa"
+          placeholder="Acil yardım bildir"
           className="flex-1 bg-transparent px-3 py-1 placeholder:text-gray focus:outline-none"
         />
         <button

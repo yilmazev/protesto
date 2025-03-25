@@ -89,7 +89,7 @@ const Chat = () => {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Aa"
+              placeholder="Yeni bir mesaja başla"
               className="flex-1 bg-transparent px-3 py-1 placeholder:text-gray focus:outline-none"
             />
             <button
