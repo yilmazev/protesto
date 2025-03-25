@@ -1,12 +1,14 @@
 "use client"
 
-import { addMessage, getMessages } from "@/actions/messages"
-import { useUsername } from "@/hooks/useUsername"
+import { addMessage } from "@/actions/messages"
+import { db } from "@/config/firebase"
 import IconSend from "@/icons/send.svg"
 import IconSpinner from "@/icons/spinner.svg"
 import { IMessage } from "@/types/IMessage"
 import clsx from "clsx"
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
 import { useEffect, useRef, useState } from "react"
+import { useUsername } from "../../../hooks/useUsername"
 
 const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; message: string }) => {
   return (
@@ -25,7 +27,28 @@ const Chat = () => {
   const [ newMessage, setNewMessage ] = useState("")
   const [ isLoading, setIsLoading ] = useState(true)
   const chatContainerRef = useRef<HTMLDivElement>(null)
-  const chatWrapperRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!username) return
+
+    setIsLoading(true)
+
+    const q = query(collection(db, "chats"), orderBy("timestamp", "asc"))
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const messages = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      })) as IMessage[]
+
+      setMessages(messages)
+      setIsLoading(false)
+      setTimeout(() => {
+        scrollToBottom()
+      }, 100)
+    })
+
+    return () => unsubscribe()
+  }, [ username ])
 
   const scrollToBottom = () => {
     if (chatContainerRef.current) {
@@ -33,52 +56,16 @@ const Chat = () => {
     }
   }
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      setIsLoading(true)
-      try {
-        const messagesData = await getMessages()
-        setMessages(messagesData)
-        setTimeout(scrollToBottom, 100)
-      } catch (error) {
-        console.error("Error fetching messages:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchMessages()
-  }, [])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [ messages ])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newMessage.trim() || !username) return
 
-    const optimisticMessage: IMessage = {
-      id: Date.now().toString(),
-      username,
-      message: newMessage,
-      timestamp: Date.now()
-    }
-
-    setMessages((prev) => [ ...prev, optimisticMessage ])
+    await addMessage(username, newMessage)
     setNewMessage("")
-
-    const response = await addMessage(username, newMessage)
-
-    if (response.error) {
-      setMessages((prev) => prev.filter((msg) => msg.id !== optimisticMessage.id))
-      alert(response.error)
-      return
-    }
   }
 
   return (
-    <div ref={chatWrapperRef} className="flex w-full flex-col rounded-2xl border border-spruce lg:min-w-96 lg:max-w-96">
+    <div className="flex w-full flex-col rounded-2xl border border-spruce lg:min-w-96 lg:max-w-96">
       <div className="flex items-center justify-between px-4 py-3">
         <h1 className="text-xl font-extrabold">Topluluk Sohbeti</h1>
       </div>
@@ -88,10 +75,7 @@ const Chat = () => {
             <IconSpinner className="size-[26px] animate-spin" />
           </div>
         ) : (
-          <div
-            ref={chatContainerRef}
-            className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto"
-          >
+          <div ref={chatContainerRef} className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto">
             {messages.map((msg) => (
               <Bubble key={msg.id} isMe={msg.username === username} sender={msg.username} message={msg.message} />
             ))}

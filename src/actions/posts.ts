@@ -1,7 +1,7 @@
 "use server"
 
+import { db } from "@/config/firebase"
 import { addDoc, collection, getDocs, orderBy, query, serverTimestamp } from "firebase/firestore"
-import { db } from "../config/firebase"
 
 export async function addPost(username: string, message: string) {
   if (!username || !message.trim()) {

@@ -1,7 +1,7 @@
 "use server"
 
+import { db } from "@/config/firebase"
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore"
-import { db } from "../config/firebase"
 
 export async function getTweets() {
   const q = query(collection(db, "tweets"), orderBy("timestamp", "desc"), limit(30))

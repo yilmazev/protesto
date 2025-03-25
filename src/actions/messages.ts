@@ -1,8 +1,7 @@
 "use server"
 
-import { addDoc, collection, getDocs, orderBy, query, serverTimestamp } from "firebase/firestore"
-import { db } from "../config/firebase"
-import { IMessage } from "../types/IMessage"
+import { db } from "@/config/firebase"
+import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 
 export async function addMessage(username: string, message: string) {
   if (!message.trim()) return { error: "The message can't be empty!" }
@@ -17,15 +16,6 @@ export async function addMessage(username: string, message: string) {
     return { success: true }
   } catch (error) {
     console.error("Error adding message:", error)
-    throw error
+    return { error: "Error adding message" }
   }
-}
-
-export async function getMessages() {
-  const q = query(collection(db, "chats"), orderBy("timestamp", "asc"))
-  const snapshot = await getDocs(q)
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data()
-  } as IMessage))
 }
