@@ -1,40 +1,23 @@
-# Protesto.cc
+# protesto.cc
+Türkiye’deki protestoları anlık olarak takip edin. Şehir seçerek o bölgedeki gösterilerle ilgili canlı tweetleri görüntüleyin.
 
-## Architecture
+## Özellikler
 
-- **Frontend**: [React](https://reactjs.org/)
-- **Framework**: [Next.js](https://nextjs.org/)
-- **Database**: [Firebase Firestore](https://firebase.google.com/docs/firestore)
-- **Deploy**: [Vercel](https://vercel.com/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- Türkiye geneli ve şehir bazlı protesto görüntüleri
 
-## Preview
+- Acil Çağrı özelliği sayesinde, herhangi bir müdahelede hızlıca iletişime geçme
 
-- [Protesto.cc](https://protesto.cc/)
+- Sürekli güncel tutulan boykot listesi
 
-## Development
+## Lisans
+Bu proje MIT Lisansı altında lisanslanmıştır. Ayrıntılar için [LICENSE](LICENSE) dosyasına bakın.
 
-```bash
-# Install dependencies
-pnpm install
+## Katkıda bulunma
+Bu projeye katkıda bulunmak istiyorsanız, lütfen [CONTRIBUTING](CONTRIBUTING.md) dosyasına bakın.
 
-# Run Build
-pnpm build
+## İletişim
 
-# Run development server
-pnpm dev
-```
+Herhangi bir soru sormak veya geri bildirimde bulunmak isterseniz, [X (eski adıyla Twitter)](https://x.com/ylmazev) üzerinden iletişime geçebilirsiniz.
 
-## Production
-
-```bash
-# Run Build
-pnpm build
-
-# Run production server
-pnpm start
-```
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+---
+© 2025 protesto.cc
