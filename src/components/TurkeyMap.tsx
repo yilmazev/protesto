@@ -27,6 +27,7 @@ const TurkeyMap: React.FC<ITurkeyMap> = ({ tweetCities, selectedCity, onClick, g
                 onClick={() => hasTweet && onClick(city.name)}
                 className={clsx(hasTweet && "cursor-pointer")}
               >
+                <title>{city.name}</title>
                 <path
                   className={clsx(fillColor, selectedCity === city.name && "!fill-primary")}
                   d={city.path}

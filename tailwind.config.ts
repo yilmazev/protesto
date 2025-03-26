@@ -24,6 +24,5 @@ const config: Config = {
       transparent: "#0000"
     },
   },
-  plugins: [],
 };
 export default config;

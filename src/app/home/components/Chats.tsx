@@ -5,18 +5,26 @@ import { db } from "@/config/firebase"
 import { useUsername } from "@/hooks/useUsername"
 import IconSend from "@/icons/send.svg"
 import IconSpinner from "@/icons/spinner.svg"
+import { IBubble } from "@/types/IBubble"
 import { IMessage } from "@/types/IMessage"
+import { convertMessage, formatDate } from "@/utils/utils"
 import clsx from "clsx"
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
 import { useEffect, useRef, useState } from "react"
 
-const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; message: string }) => {
+const Bubble: React.FC<IBubble> = ({ message }) => {
+  const isMe = (message.username === useUsername())
+  const timestamp = message.timestamp.seconds * 1000
+
   return (
     <div className={clsx("flex w-full flex-col", isMe && "items-end self-end")}>
       <div className={clsx("w-fit rounded-3xl px-4 py-3", isMe ? "rounded-br-sm bg-primary" : "rounded-bl-sm bg-fiord")}>
-        <p className="break-all text-[15px]">{message}</p>
+        <p className="break-all text-[15px] leading-relaxed" dangerouslySetInnerHTML={{ __html: convertMessage(message.message) }} />
       </div>
-      <span className={clsx("block w-full overflow-hidden whitespace-nowrap text-[13px] text-gray", isMe && "text-right")}>{sender}</span>
+      <div className="flex items-center text-[13px] text-gray">
+        <span className={clsx("overflow-hidden whitespace-nowrap", isMe && "text-right")}>{message.username}</span>
+        <span className="ml-1" title={formatDate(timestamp, 4)}> · {formatDate(timestamp, 2)}</span>
+      </div>
     </div>
   )
 }
@@ -117,15 +125,15 @@ const Chat = () => {
       <div className="flex items-center justify-between px-4 py-3">
         <h1 className="text-xl font-extrabold">Topluluk Sohbeti</h1>
       </div>
-      <div className="h-full flex-1 overflow-hidden px-4 py-3">
+      <div className="h-full flex-1 overflow-hidden">
         {isLoading ? (
           <div className="flex size-full items-center justify-center">
             <IconSpinner className="size-[26px] animate-spin" />
           </div>
         ) : (
-          <div ref={chatContainerRef} className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto">
+          <div ref={chatContainerRef} className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto px-4 py-3 lg:h-auto">
             {messages.map((msg) => (
-              <Bubble key={msg.id} isMe={msg.username === username} sender={msg.username} message={msg.message} />
+              <Bubble key={msg.id} message={msg} />
             ))}
           </div>
         )}
@@ -146,6 +154,8 @@ const Chat = () => {
               type="submit"
               disabled={!newMessage.trim() || isThrottled}
               className="flex size-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-primary/10 active:bg-primary/20 disabled:opacity-50 disabled:hover:bg-primary/0 disabled:active:bg-primary/0"
+              title="Gönder"
+              aria-label="Gönder"
             >
               <IconSend className="size-5 text-primary" />
             </button>
