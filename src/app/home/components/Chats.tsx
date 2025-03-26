@@ -6,17 +6,23 @@ import { useUsername } from "@/hooks/useUsername"
 import IconSend from "@/icons/send.svg"
 import IconSpinner from "@/icons/spinner.svg"
 import { IMessage } from "@/types/IMessage"
+import { convertMessage, formatDate } from "@/utils/utils"
 import clsx from "clsx"
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
 import { useEffect, useRef, useState } from "react"
 
-const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; message: string }) => {
+const Bubble = ({ msg }: { msg: IMessage; }) => {
+  const isMe = (msg.username === useUsername())
+  const timestamp = msg.timestamp.seconds * 1000
   return (
-    <div className={clsx("flex w-full flex-col", isMe && "items-end self-end")}>
-      <div className={clsx("w-fit rounded-3xl px-4 py-3", isMe ? "rounded-br-sm bg-primary" : "rounded-bl-sm bg-fiord")}>
-        <p className="break-all text-[15px]">{message}</p>
+    <div className={clsx("flex w-full flex-col gap-1", isMe && "items-end self-end")}>
+      <div className={clsx("max-w-sm lg:max-w-md flex flex-col rounded-3xl px-4 py-3 shadow-sm", isMe ? "rounded-br-sm bg-primary text-white" : "rounded-bl-sm bg-fiord text-black")}>
+        <div className="mb-1 flex justify-between text-xs text-gray-400">
+          <span className="break-all font-bold overflow-hidden">{msg.username}{isMe ? ` (Sen)` : ``}</span>
+          <span className="ml-1" title={formatDate(timestamp, 3)}> · {formatDate(timestamp, 4)}</span>
+        </div>
+        <p className="break-all text-[15px] leading-relaxed" dangerouslySetInnerHTML={{ __html: convertMessage(msg.message) }} />
       </div>
-      <span className={clsx("block w-full overflow-hidden whitespace-nowrap text-[13px] text-gray", isMe && "text-right")}>{sender}</span>
     </div>
   )
 }
@@ -123,9 +129,9 @@ const Chat = () => {
             <IconSpinner className="size-[26px] animate-spin" />
           </div>
         ) : (
-          <div ref={chatContainerRef} className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto">
+          <div ref={chatContainerRef} className="flex h-full !max-h-80 min-h-full flex-col gap-6 overflow-y-auto lg:h-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-track-gray-800 scrollbar-thumb-gray-600 hover:scrollbar-thumb-gray-500">
             {messages.map((msg) => (
-              <Bubble key={msg.id} isMe={msg.username === username} sender={msg.username} message={msg.message} />
+              <Bubble key={msg.id} msg={msg}/>
             ))}
           </div>
         )}
@@ -146,6 +152,8 @@ const Chat = () => {
               type="submit"
               disabled={!newMessage.trim() || isThrottled}
               className="flex size-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-primary/10 active:bg-primary/20 disabled:opacity-50 disabled:hover:bg-primary/0 disabled:active:bg-primary/0"
+              title="Gönder"
+              aria-label="Gönder"
             >
               <IconSend className="size-5 text-primary" />
             </button>

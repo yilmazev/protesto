@@ -15,21 +15,22 @@ export async function GET(req: NextRequest) {
     let image = null
 
     try {
-      const oEmbedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}&omit_script=1`
-      const oEmbedResponse = await fetch(oEmbedUrl)
-      const oEmbedData = await oEmbedResponse.json()
+      const oEmbedResponse = await fetch(`https://publish.twitter.com/oembed?url=${encodeURIComponent(url)}&omit_script=1`, { headers: { "User-Agent": "Twitterbot" } })
+      if(oEmbedResponse.ok) {
+        const oEmbedData = await oEmbedResponse.json()
 
-      if (oEmbedData?.html) {
-        const match = oEmbedData.html.match(/<p.*?>(.*?)<\/p>/)
-        tweetText = match ? match[1] : null
+        if (oEmbedData?.html) {
+          const match = oEmbedData.html.match(/<p.*?>(.*?)<\/p>/)
+          tweetText = match ? match[1] : null
 
-        if (oEmbedData.author_name) {
-          author = oEmbedData.author_name
-        }
+          if (oEmbedData.author_name) {
+            author = oEmbedData.author_name
+          }
 
-        if (oEmbedData.author_url) {
-          const usernameMatch = oEmbedData.author_url.match(/https:\/\/twitter.com\/(.*?)(\/|$)/)
-          username = usernameMatch ? usernameMatch[1] : null
+          if (oEmbedData.author_url) {
+            const usernameMatch = oEmbedData.author_url.match(/https:\/\/twitter.com\/(.*?)(\/|$)/)
+            username = usernameMatch ? usernameMatch[1] : null
+          }
         }
       }
     } catch (err) {
@@ -65,7 +66,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Tweet data not found" }, { status: 404 })
     }
 
-    tweetText = tweetText.replace(/<a /g, "<a target=\"_blank\" ").replaceAll(/\?src=hash&ref_src=twsrc%5Etfw/g, "")
+    tweetText = tweetText.replace(/<a /g, "<a target=\"_blank\" ").replace(/\?src=hash&amp;ref_src=twsrc%5Etfw/g, "")
 
     return NextResponse.json({ tweetText, author, username, image, tweetUrl: url })
   } catch (error) {

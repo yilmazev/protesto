@@ -24,6 +24,8 @@ const config: Config = {
       transparent: "#0000"
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 };
 export default config;
