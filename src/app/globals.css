@@ -2,8 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  body {
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      border-radius: 999px;
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #556676;
+      border-radius: 999px;
+    }
+  }
+}
+
 html, body {
   @apply scroll-smooth;
+  -ms-overflow-style: scrollbar;
 }
 
 .tweet-content {

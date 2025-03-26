@@ -5,9 +5,7 @@ import IconSpinner from "@/icons/spinner.svg"
 import { useMapStore } from "@/stores/useMapStore"
 import { ITweet } from "@/types/ITweet"
 import { useEffect, useState } from "react"
-
-import NotFound from "./tweets/NotFound"
-import Post from "./tweets/Post"
+import Tweet from "../../../components/Tweet"
 
 const Trending = () => {
   const { selectedCity } = useMapStore()
@@ -37,11 +35,11 @@ const Trending = () => {
             } catch (error) {
               console.error("Error fetching tweet text:", error)
               return {
-                text: null,
+                text: "",
                 url: null,
-                author: null,
-                username: null,
-                image: null
+                author: "",
+                username: "",
+                image: ""
               }
             }
           })
@@ -72,15 +70,9 @@ const Trending = () => {
               <IconSpinner className="size-[20px] animate-spin" />
             </div>
           ) : (
-            tweets.map((tweet, index) => {
-              if (!tweet.url) return (
-                <NotFound key={index} />
-              )
-
-              return (
-                <Post key={index} tweet={tweet} />
-              )
-            })
+            tweets.map((tweet, index) => (
+              <Tweet key={index} tweet={tweet} />
+            ))
           )}
         </div>
       </div>

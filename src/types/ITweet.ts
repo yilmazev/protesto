@@ -1,7 +1,7 @@
 export interface ITweet {
-  text: string | null;
+  text: string;
   url: string | null;
-  author: string | null;
-  username: string | null;
-  image: string | null;
+  author: string;
+  username: string;
+  image: string;
 }

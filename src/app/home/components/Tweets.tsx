@@ -5,9 +5,7 @@ import IconTimes from "@/icons/times.svg"
 import { useMapStore } from "@/stores/useMapStore"
 import { ITweet } from "@/types/ITweet"
 import { useEffect, useState } from "react"
-
-import NotFound from "./tweets/NotFound"
-import Post from "./tweets/Post"
+import Tweet from "../../../components/Tweet"
 
 const Tweets = () => {
   const { selectedCity, setSelectedCity } = useMapStore()
@@ -48,11 +46,11 @@ const Tweets = () => {
       } catch (error) {
         console.error("Tweet data fetch failed:", error)
         return {
-          text: null,
+          text: "",
           url: null,
-          author: null,
-          username: null,
-          image: null
+          author: "",
+          username: "",
+          image: ""
         }
       }
       setIsLoading(false)
@@ -83,15 +81,9 @@ const Tweets = () => {
               <IconSpinner className="size-[20px] animate-spin" />
             </div>
           ) : (
-            tweets.map((tweet, index) => {
-              if (!tweet.url) return (
-                <NotFound key={index} />
-              )
-
-              return (
-                <Post key={index} tweet={tweet} />
-              )
-            })
+            tweets.map((tweet, index) => (
+              <Tweet key={index} tweet={tweet} />
+            ))
           )}
         </div>
       </div>
