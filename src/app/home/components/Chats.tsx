@@ -103,7 +103,7 @@ const Chat = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newMessage.trim() || !username || isThrottled) return
+    if (!newMessage.trim() || !username?.trim() || isThrottled) return
 
     await addMessage(username, newMessage)
     setNewMessage("")
@@ -144,6 +144,7 @@ const Chat = () => {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder={isThrottled ? `${countdown} saniye sonra tekrar dene` : "Yeni bir mesaja başla"}
+              maxLength={100}
               className="flex-1 bg-transparent px-3 py-1 placeholder:text-gray focus:outline-none"
               disabled={isThrottled}
             />
