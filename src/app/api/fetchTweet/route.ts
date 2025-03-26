@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -37,12 +37,12 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-      const response = await fetch(url, { headers: { "User-Agent": "Twitterbot" } });
-      if(response.ok) {
-        const html = (await response.text()).replaceAll("\n"," ").replaceAll("\r"," ").replaceAll("\t"," ").replaceAll("  "," ");
-        const titleMatch = html.match(/<meta content="([^"]+)" property="og:description" \/>/);
+      const response = await fetch(url, { headers: { "User-Agent": "Twitterbot" } })
+      if (response.ok) {
+        const html = (await response.text()).replaceAll("\n", " ").replaceAll("\r", " ").replaceAll("\t", " ").replaceAll("  ", " ")
+        const titleMatch = html.match(/<meta content="([^"]+)" property="og:description" \/>/)
         if (!tweetText) {
-          tweetText = titleMatch ? titleMatch[1] : null;
+          tweetText = titleMatch ? titleMatch[1] : null
         }
         if (!author) {
           const authorMatch = html.match(/<meta content="([^"]+?) \(@.*?\) on X" property="og:title" \/>/)
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
           const usernameMatch = html.match(/<meta content=".*? \(@([^"]+?)\) on X" property="og:title" \/>/)
           username = usernameMatch ? usernameMatch[1] : null
         }
-        if(!image) {
+        if (!image) {
           const imageMatch = html.match(/<meta content="([^"]+?)" property="og:image" \/>/)
           image = imageMatch ? imageMatch[1] : null
         }
@@ -65,8 +65,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Tweet data not found" }, { status: 404 })
     }
 
-    // Make links open in new tab
-    tweetText = tweetText.replace(/<a /g, '<a target="_blank" ').replaceAll(/\?src=hash&ref_src=twsrc%5Etfw/g, "")
+    tweetText = tweetText.replace(/<a /g, "<a target=\"_blank\" ").replaceAll(/\?src=hash&ref_src=twsrc%5Etfw/g, "")
 
     return NextResponse.json({ tweetText, author, username, image, tweetUrl: url })
   } catch (error) {
