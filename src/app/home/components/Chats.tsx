@@ -16,7 +16,7 @@ const Bubble = ({ isMe, sender, message }: { isMe: boolean; sender: string; mess
       <div className={clsx("w-fit rounded-3xl px-4 py-3", isMe ? "rounded-br-sm bg-primary" : "rounded-bl-sm bg-fiord")}>
         <p className="break-all text-[15px]">{message}</p>
       </div>
-      <span className={clsx("block w-full text-[13px] text-gray", isMe && "text-right")}>{sender}</span>
+      <span className={clsx("block w-full overflow-hidden whitespace-nowrap text-[13px] text-gray", isMe && "text-right")}>{sender}</span>
     </div>
   )
 }
@@ -97,7 +97,7 @@ const Chat = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newMessage.trim() || !username || isThrottled) return
+    if (!newMessage.trim() || !username?.trim() || isThrottled) return
 
     await addMessage(username, newMessage)
     setNewMessage("")
@@ -138,6 +138,7 @@ const Chat = () => {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder={isThrottled ? `${countdown} saniye sonra tekrar dene` : "Yeni bir mesaja başla"}
+              maxLength={100}
               className="flex-1 bg-transparent px-3 py-1 placeholder:text-gray focus:outline-none"
               disabled={isThrottled}
             />
