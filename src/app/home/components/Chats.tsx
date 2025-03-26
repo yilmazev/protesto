@@ -26,7 +26,46 @@ const Chat = () => {
   const [ messages, setMessages ] = useState<IMessage[]>([])
   const [ newMessage, setNewMessage ] = useState("")
   const [ isLoading, setIsLoading ] = useState(true)
+  const [ isThrottled, setIsThrottled ] = useState(false)
+  const [ throttleEndTime, setThrottleEndTime ] = useState<number | null>(null)
+  const [ messageCount, setMessageCount ] = useState(0)
+  const [ countdown, setCountdown ] = useState(60)
   const chatContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const storedEnd = localStorage.getItem("flood_throttle_until")
+    if (storedEnd) {
+      const endTime = parseInt(storedEnd)
+      const now = Date.now()
+      if (endTime > now) {
+        setIsThrottled(true)
+        setThrottleEndTime(endTime)
+        setCountdown(Math.ceil((endTime - now) / 1000))
+      } else {
+        localStorage.removeItem("flood_throttle_until")
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (isThrottled && throttleEndTime) {
+      const interval = setInterval(() => {
+        const now = Date.now()
+        const remaining = throttleEndTime - now
+        if (remaining <= 0) {
+          clearInterval(interval)
+          setIsThrottled(false)
+          setMessageCount(0)
+          setThrottleEndTime(null)
+          localStorage.removeItem("flood_throttle_until")
+        } else {
+          setCountdown(Math.ceil(remaining / 1000))
+        }
+      }, 1000)
+
+      return () => clearInterval(interval)
+    }
+  }, [ isThrottled, throttleEndTime ])
 
   useEffect(() => {
     if (!username) return
@@ -58,10 +97,19 @@ const Chat = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!newMessage.trim() || !username) return
+    if (!newMessage.trim() || !username || isThrottled) return
 
     await addMessage(username, newMessage)
     setNewMessage("")
+
+    setMessageCount((prev) => prev + 1)
+
+    if (messageCount >= 4) {
+      const until = Date.now() + 60000
+      setIsThrottled(true)
+      setThrottleEndTime(until)
+      localStorage.setItem("flood_throttle_until", until.toString())
+    }
   }
 
   return (
@@ -89,12 +137,13 @@ const Chat = () => {
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Yeni bir mesaja başla"
+              placeholder={isThrottled ? `${countdown} saniye sonra tekrar dene` : "Yeni bir mesaja başla"}
               className="flex-1 bg-transparent px-3 py-1 placeholder:text-gray focus:outline-none"
+              disabled={isThrottled}
             />
             <button
               type="submit"
-              disabled={!newMessage.trim()}
+              disabled={!newMessage.trim() || isThrottled}
               className="flex size-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-primary/10 active:bg-primary/20 disabled:opacity-50 disabled:hover:bg-primary/0 disabled:active:bg-primary/0"
             >
               <IconSend className="size-5 text-primary" />
