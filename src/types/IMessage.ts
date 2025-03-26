@@ -2,5 +2,8 @@ export interface IMessage {
   id: string;
   username: string;
   message: string;
-  timestamp: number;
+  timestamp: {
+    seconds: number;
+    nanoseconds: number;
+  };
 }
