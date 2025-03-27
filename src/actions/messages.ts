@@ -6,6 +6,7 @@ import { addDoc, collection, serverTimestamp } from "firebase/firestore"
 
 export async function addMessage(username: string, message: string) {
   if (!message.trim()) return { error: "The message can't be empty!" }
+  if (message.length > 100) return { error: "The message must be 100 characters or less." }
 
   message = utmRemover(message)
   message = emoteConvert(message)
