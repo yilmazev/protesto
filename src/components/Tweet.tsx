@@ -21,7 +21,7 @@ const Tweet = ({ tweet }: { tweet: ITweet }) => {
         <p className="break-all p-1" dangerouslySetInnerHTML={{ __html: tweet.text }} />
         {tweet.image && (
           <div className="relative mt-2 h-48 w-full overflow-hidden rounded-2xl">
-            <Image src={tweet.image} alt={tweet.text} fill className="object-cover" />
+            <Image src={tweet.image} alt={tweet.text} fill loading="lazy" className="object-cover" />
           </div>
         )}
       </div>
