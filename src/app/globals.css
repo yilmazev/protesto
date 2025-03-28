@@ -3,28 +3,29 @@
 @tailwind utilities;
 
 @layer utilities {
-  body {
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      border-radius: 999px;
-      background: transparent;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #556676;
-      border-radius: 999px;
-    }
+  .break-words {
+    @apply break-words;
   }
 }
 
 html, body {
   @apply scroll-smooth;
   -ms-overflow-style: scrollbar;
-}
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 
+  ::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #556676;
+    border-radius: 999px;
+  }
+}
 .tweet-content {
   @apply text-[15px] text-haze break-words;
   
