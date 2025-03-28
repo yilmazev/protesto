@@ -41,7 +41,7 @@ const Posts = () => {
                 <div className="text-[15px] text-gray">
                   <span className="font-medium text-haze">{post.username}</span> · <span>{formatDate(post.timestamp)}</span>
                 </div>
-                <p className="break-all text-haze">{post.message}</p>
+                <p className="break-words text-haze">{post.message}</p>
               </div>
             ))}
           </div>

@@ -18,7 +18,7 @@ const Tweet = ({ tweet }: { tweet: ITweet }) => {
           </Link>
           <p className="ml-1 text-gray">@{tweet.username}</p>
         </div>
-        <p className="break-all p-1" dangerouslySetInnerHTML={{ __html: tweet.text }} />
+        <p className="break-words p-1" dangerouslySetInnerHTML={{ __html: tweet.text }} />
         {tweet.image && (
           <div className="relative mt-2 h-48 w-full overflow-hidden rounded-2xl">
             <Image src={tweet.image} alt={tweet.text} fill loading="lazy" className="object-cover" />

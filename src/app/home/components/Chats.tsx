@@ -19,7 +19,7 @@ const Bubble: React.FC<IBubble> = ({ message }) => {
   return (
     <div className={clsx("flex w-full flex-col", isMe && "items-end self-end")}>
       <div className={clsx("w-fit rounded-3xl px-4 py-3", isMe ? "rounded-br-sm bg-primary" : "rounded-bl-sm bg-fiord")}>
-        <p className="break-all text-[15px] leading-relaxed" dangerouslySetInnerHTML={{ __html: convertMessage(message.message) }} />
+        <p className="break-words text-[15px] leading-relaxed" dangerouslySetInnerHTML={{ __html: convertMessage(message.message) }} />
       </div>
       <div className="flex items-center text-[13px] text-gray">
         <span className={clsx("overflow-hidden whitespace-nowrap", isMe && "text-right")}>{message.username}</span>
